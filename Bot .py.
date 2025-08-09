@@ -1,0 +1,19 @@
+import os
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+
+TOKEN = os.getenv("BOT_TOKEN")
+
+def start(update, context):
+    update.message.reply_text("Yo! Gmoney$ bot is live 🚀")
+
+def handle_message(update, context):
+    update.message.reply_text(f"You said: {update.message.text}")
+
+updater = Updater(TOKEN, use_context=True)
+dp = updater.dispatcher
+
+dp.add_handler(CommandHandler("start", start))
+dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
+
+updater.start_polling()
+updater.idle()
